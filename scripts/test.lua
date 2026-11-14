@@ -1,5 +1,4 @@
 -- KHUB UNIVERSAL FAST LOADER
--- Supports PC & Mobile Executors
 local LOADER_SLUG = "test" 
 local API_URL = "https://pocket-json-postbox.lovable.app/api/bin/22833504"
 local MASTER_KEY = "2e25049a9c88458e1fbf6567b6209071abee94a03bbfe5c3"
@@ -35,15 +34,8 @@ task.spawn(function()
     end
 
     local success, res = pcall(fetchData)
-    if not success or not res then
-        warn("[KHUB] Connection Failed. Executor might not support custom headers.")
-        return
-    end
-    
-    if res == "404" then
-        warn("[KHUB] API URL is dead (404 Not Found).")
-        return
-    end
+    if not success or not res then warn("[KHUB] Connection Failed.") return end
+    if res == "404" then warn("[KHUB] API URL is dead.") return end
 
     local decoded
     local jsonSuccess = pcall(function()
@@ -51,10 +43,7 @@ task.spawn(function()
         if data.record then decoded = data.record else decoded = data end
     end)
 
-    if not jsonSuccess or not decoded then 
-        warn("[KHUB] Invalid JSON.") 
-        return 
-    end
+    if not jsonSuccess or not decoded then warn("[KHUB] Invalid JSON.") return end
 
     local targetLoader = nil
     for _, loader in pairs(decoded.loaders or {}) do
@@ -64,10 +53,7 @@ task.spawn(function()
         end
     end
 
-    if not targetLoader then 
-        warn("[KHUB] Slug not found: " .. LOADER_SLUG) 
-        return 
-    end
+    if not targetLoader then warn("[KHUB] Slug not found: " .. LOADER_SLUG) return end
 
     local publishedCode = nil
     for _, ver in pairs(targetLoader.versions or {}) do
@@ -77,19 +63,14 @@ task.spawn(function()
         end
     end
 
-    if not publishedCode then 
-        warn("[KHUB] Code missing for version " .. tostring(targetLoader.publishedVersion)) 
-        return 
-    end
+    if not publishedCode then warn("[KHUB] Code missing.") return end
 
-    print("[KHUB] Executing: " .. targetLoader.name .. " (v" .. tostring(targetLoader.publishedVersion) .. ")")
+    print("[KHUB] Executing: " .. targetLoader.name)
     local func, err = loadstring(publishedCode)
     
     if func then
         local execSuccess, execErr = pcall(func)
-        if not execSuccess then 
-            warn("[KHUB] Execution Error: " .. tostring(execErr)) 
-        end
+        if not execSuccess then warn("[KHUB] Execution Error: " .. tostring(execErr)) end
     else
         warn("[KHUB] Compile Error: " .. tostring(err))
     end
