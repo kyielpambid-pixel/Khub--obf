@@ -9,7 +9,6 @@ task.spawn(function()
     local response = nil
     local headers = {["X-Master-Key"] = MASTER_KEY}
     
-    -- SMART REQUEST (Para makapasok sa Private JSON)
     local function fetchData()
         if syn and syn.request then
             local res = syn.request({Url = API_URL, Method = "GET", Headers = headers})
@@ -42,7 +41,7 @@ task.spawn(function()
     end
     
     if res == "404" then
-        warn("[KHUB] API URL is dead (404 Not Found). Check if your Lovable JSON still exists.")
+        warn("[KHUB] API URL is dead (404 Not Found).")
         return
     end
 
@@ -53,7 +52,7 @@ task.spawn(function()
     end)
 
     if not jsonSuccess or not decoded then 
-        warn("[KHUB] Invalid JSON. Make sure the API link is correct.") 
+        warn("[KHUB] Invalid JSON.") 
         return 
     end
 
