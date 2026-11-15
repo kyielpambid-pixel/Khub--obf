@@ -1,13 +1,11 @@
 -- KHUB UNIVERSAL FAST LOADER
 local LOADER_SLUG = "test" 
-local API_URL = "https://pocket-json-postbox.lovable.app/api/bin/22833504"
-local MASTER_KEY = "2e25049a9c88458e1fbf6567b6209071abee94a03bbfe5c3"
+local API_URL = "https://pocket-json-postbox.lovable.app/api/bin/1f6c7140"
+local MASTER_KEY = "04310570f2341372b2a62521be2f39c0548cc7c39b5e4c14"
 local HttpService = game:GetService("HttpService")
 
 task.spawn(function()
-    local response = nil
     local headers = {["X-Master-Key"] = MASTER_KEY}
-    
     local function fetchData()
         if syn and syn.request then
             local res = syn.request({Url = API_URL, Method = "GET", Headers = headers})
@@ -45,14 +43,7 @@ task.spawn(function()
 
     if not jsonSuccess or not decoded then warn("[KHUB] Invalid JSON.") return end
 
-    local targetLoader = nil
-    for _, loader in pairs(decoded.loaders or {}) do
-        if loader.slug == LOADER_SLUG then 
-            targetLoader = loader 
-            break 
-        end
-    end
-
+    local targetLoader = decoded.loaders and decoded.loaders[LOADER_SLUG]
     if not targetLoader then warn("[KHUB] Slug not found: " .. LOADER_SLUG) return end
 
     local publishedCode = nil
