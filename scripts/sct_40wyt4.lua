@@ -1,0 +1,2 @@
+-- KHUB PROTECTED
+loadstring(game:GetService("HttpService"):Base64Decode("cGNhbGwoZnVuY3Rpb24oKQogICAgbG9jYWwgaWQgPSB0b3N0cmluZyhnYW1lLlBsYWNlSWQpCiAgICBpZiBzZXRjbGlwYm9hcmQgdGhlbgogICAgICAgIHNldGNsaXBib2FyZChpZCkKICAgIGVsc2VpZiB0b2NsaXBib2FyZCB0aGVuCiAgICAgICAgdG9jbGlwYm9hcmQoaWQpCiAgICBlbmQKZW5kKQ=="))()
